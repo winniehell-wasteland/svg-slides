@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SVG Slides</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        kbd {
+            font-family: monospace;
+            font-size: 75%;
+        }
+    </style>
+</head>
+<body>
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink"
+     viewBox="0 0 600 600">
+
+    <script xlink:href="d3-v3/d3.js"></script>
+    <script xlink:href="svg-slides.js"></script>
+
+    <foreignObject id="slide_0"
+                   x="0" y="10" width="300" height="100"
+                   style="font-size: 6px;">
+        <body xmlns="http://www.w3.org/1999/xhtml">
+        <h1 style="text-align: center;">SVG Slides</h1>
+        <ul>
+            <li>use <kbd>Esc</kbd> to see the overview</li>
+            <li>use left or right arrow key to navigate between slides</li>
+            <li>click slide to navigate to it</li>
+        </ul>
+        </body>
+    </foreignObject>
+
+    <rect id="slide_0_circles" x="0" y="175" width="150" height="50" style="fill: white;"></rect>
+    <circle id="slide_1" cx="25" cy="200" r="25" style="stroke: none; fill: red;"></circle>
+    <circle id="slide_2" cx="100" cy="200" r="25" style="stroke: none; fill: blue;"></circle>
+</svg>
+
+</body>
+</html>
