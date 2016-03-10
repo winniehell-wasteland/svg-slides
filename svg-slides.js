@@ -30,6 +30,9 @@ window.addEventListener('load', function () {
   window.addEventListener('keydown', onKeyDown);
   window.addEventListener('hashchange', onHashChange);
 
+  svg.on('wheel', onMouseWheel);
+
+  // start presentation
   onHashChange();
 
   function getCurrentSlideId () {
@@ -56,10 +59,23 @@ window.addEventListener('load', function () {
       return;
     }
 
-    console.log(`Transitioning to slide ${slideId}...`);
+    var viewBoxPattern = /viewBox=(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*)/;
+
     if (slideId === 'overview') {
+      console.log(`Transitioning to overview..`);
       transitionTo(svg.node());
+    } else if (viewBoxPattern.test(slideId)) {
+      var match = viewBoxPattern.exec(slideId);
+      var viewBox = {
+        left: match[1],
+        top: match[2],
+        width: match[3],
+        height: match[4]
+      };
+      console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
+      svg.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
     } else {
+      console.log(`Transitioning to slide ${slideId}...`);
       var slideNode = d3.select('#' + slideId).node();
       transitionTo(slideNode);
     }
@@ -90,8 +106,38 @@ window.addEventListener('load', function () {
     }
   }
 
+  function onMouseWheel () {
+    var zoom;
+    if (d3.event.wheelDelta > 0) {
+      console.log('Zooming in');
+      zoom = 0.8;
+    } else {
+      console.log('Zooming out');
+      zoom = 1.25;
+    }
+
+    var oldViewBox = svg.attr('viewBox')
+      .split(' ')
+      .map(function (component) {
+        return parseInt(component);
+      });
+
+    var mouse = d3.mouse(this);
+    var viewBox = {
+      left: mouse[0] - (mouse[0] - oldViewBox[0]) * zoom,
+      top: mouse[1] - (mouse[1] - oldViewBox[1]) * zoom,
+      width: oldViewBox[2] * zoom,
+      height: oldViewBox[3] * zoom
+    };
+    setViewBox(viewBox);
+  }
+
   function setCurrentSlideId (slideId) {
-    window.location.hash = '#' + slideId;
+    window.location.hash = `#${slideId}`;
+  }
+
+  function setViewBox (viewBox) {
+    window.location.hash = `#viewBox=${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}`;
   }
 
   function transitionTo (svgElement) {
