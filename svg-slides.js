@@ -47,8 +47,6 @@ window.addEventListener('load', function () {
 
   function onHashChange () {
     var slideId = getCurrentSlideId();
-    console.log('slideId: ${slideId}');
-
     if (!slideId) {
       if (sortedSlideIds.length > 0) {
         setCurrentSlideId(sortedSlideIds[0]);
@@ -69,22 +67,26 @@ window.addEventListener('load', function () {
 
   function onKeyDown (event) {
     var currentSlideIndex = sortedSlideIds.indexOf(getCurrentSlideId());
-    switch (event.code) {
+    var key = event.code || event.keyIdentifier;
+    switch (key) {
       case 'ArrowLeft':
+      case 'Left':
         if (currentSlideIndex > 0) {
           setCurrentSlideId(sortedSlideIds[currentSlideIndex - 1]);
         }
         break;
       case 'ArrowRight':
+      case 'Right':
         if (currentSlideIndex < sortedSlideIds.length - 1) {
           setCurrentSlideId(sortedSlideIds[currentSlideIndex + 1]);
         }
         break;
       case 'Escape':
+      case 'U+001B':
         setCurrentSlideId('overview');
         break;
       default:
-        console.log(`No keybinding for ${event.code}`);
+        console.log(`No keybinding for ${key}`);
     }
   }
 
