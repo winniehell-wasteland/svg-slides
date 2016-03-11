@@ -5,7 +5,8 @@ window.addEventListener('load', function () {
   svg.attr('width', '100%');
   svg.attr('height', '100%');
 
-  var slides = svg.selectAll('[id^=slide_]');
+  var slidePrefix = 'slide_';
+  var slides = svg.selectAll(`[id^=${slidePrefix}]`);
 
   var sortedSlideIds = slides[0].map(function (slide) {
     return slide.id;
@@ -25,6 +26,10 @@ window.addEventListener('load', function () {
 
   slides[0].forEach(function (slideNode) {
     slideNode.addEventListener('click', onClickSlide);
+
+    function onClickSlide (event) {
+      setCurrentSlideId(slideNode.id);
+    }
   });
 
   window.addEventListener('keydown', onKeyDown);
@@ -42,10 +47,6 @@ window.addEventListener('load', function () {
     } else {
       return hash.replace(/^#/, '');
     }
-  }
-
-  function onClickSlide (event) {
-    setCurrentSlideId(event.target.id);
   }
 
   function onHashChange () {
