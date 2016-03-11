@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml-stylesheet type="text/css" href="feature-freeze.css" ?><!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="feature-freeze.svg">
+  <script
+     xlink:href="d3-v3/d3.js"
+     id="script3371" />
+  <script
+     xlink:href="svg-slides.js"
+     id="script3369" />
+  <defs
+     id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4319">
+      <stop
+         style="stop-color:#000000;stop-opacity:1;"
+         offset="0"
+         id="stop4321" />
+      <stop
+         style="stop-color:#000000;stop-opacity:0;"
+         offset="1"
+         id="stop4323" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4319"
+       id="linearGradient4325"
+       x1="29.298213"
+       y1="1323.0558"
+       x2="64.647713"
+       y2="1323.0558"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="5.12"
+     inkscape:cx="201.33691"
+     inkscape:cy="883.69167"
+     inkscape:document-units="px"
+     inkscape:current-layer="conflic-arrows"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.29865146;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+       id="slide_1-1"
+       width="160"
+       height="90"
+       x="-70"
+       y="122.36221"
+       inkscape:label="#rect4482" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF';letter-spacing:0px;word-spacing:0px;opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+       x="4.4699998"
+       y="162.0522"
+       id="slide_1"
+       sodipodi:linespacing="125%"
+       inkscape:label="#text3373"
+       onfocusin=""
+       onfocusout=""><tspan
+         sodipodi:role="line"
+         id="tspan3375"
+         x="4.4699998"
+         y="162.0522"
+         style="font-size:15px;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529">Goals</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="4.4825001"
+       y="185.64034"
+       id="text4484"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4490"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.4825001"
+         y="185.64034">until release</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.5px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.4825001"
+         y="196.18721"
+         id="tspan4518">- maximize features</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.5px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.4825001"
+         y="205.56221"
+         id="tspan4520">- minimize bugs</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.4825001"
+         y="214.93721"
+         id="tspan4522" /><tspan
+         sodipodi:role="line"
+         id="tspan4492"
+         x="4.4825001"
+         y="224.31221" /></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+       id="slide_1-2"
+       width="240"
+       height="135"
+       x="-120"
+       y="122.36221"
+       inkscape:label="#rect4524" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="4.5599999"
+       y="225.64034"
+       id="text4484-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4490-9"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.5599999"
+         y="225.64034">during development</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.5px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.5599999"
+         y="236.18721"
+         id="tspan4518-3">- early review of features</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.5px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.5599999"
+         y="245.56221"
+         id="tspan4520-9">- fast feedback for bugs</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="4.5599999"
+         y="254.93721"
+         id="tspan4522-6" /><tspan
+         sodipodi:role="line"
+         id="tspan4492-8"
+         x="4.5599999"
+         y="264.31219" /></text>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-width:0.29865146;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+       id="slide_2"
+       width="320"
+       height="180"
+       x="-20"
+       y="122.36221"
+       inkscape:label="#rect4482"
+       onfocusin="d3.select('#conflic-arrows').transition().style('opacity', 1);"
+       onfocusout="d3.select('#conflic-arrows').transition().style('opacity',0);" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF';letter-spacing:0px;word-spacing:0px;opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0.2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+       x="169.47"
+       y="162.0522"
+       id="text3373"
+       sodipodi:linespacing="125%"
+       inkscape:label="#text3373"
+       onfocusin=""
+       onfocusout=""><tspan
+         sodipodi:role="line"
+         x="169.47"
+         y="162.0522"
+         style="font-size:15px;stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+         id="tspan4649">Conflicts</tspan><tspan
+         sodipodi:role="line"
+         x="169.47"
+         y="180.8022"
+         style="stroke:#000000;stroke-width:0.2;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+         id="tspan4653" /></text>
+    <g
+       id="conflic-arrows"
+       inkscape:label="#g4767"
+       onload=""
+       style="opacity:0"
+       transform="translate(-18.359375,29.296875)">
+      <path
+         id="path4725"
+         d="m 100.54108,163.78285 82.49855,-8.90105 -0.13087,-0.99142 -81.50712,8.77025 m -0.26162,-1.9828 -8.595632,3.65584 9.249692,1.30119"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccccc"
+         style="fill:#3c3c3c;fill-opacity:1" />
+      <path
+         style="fill:#3c3c3c;fill-opacity:1"
+         id="path4725-9"
+         d="m 89.457576,172.91321 93.812614,-18.07545 -0.19992,-0.97983 -92.832798,17.87556 m -0.39982,-1.95965 -8.318539,4.24875 9.318099,0.65033"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccccc" />
+      <path
+         style="opacity:1;fill:#898989;fill-opacity:1"
+         id="path4725-9-3"
+         d="m 95.36206,166.8547 88.00776,5.5078 0.0467,-0.99892 -87.008836,-5.46105 m 0.09349,-1.99782 -9.107014,2.0766 8.873306,2.91793"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccccc" />
+      <path
+         style="opacity:1;fill:#898989;fill-opacity:1"
+         id="path4725-9-3-0"
+         d="m 115.16793,208.80978 68.21005,-36.57935 -0.38377,-0.92345 -67.28656,36.19563 m -0.76744,-1.84691 -7.35176,5.76208 9.27035,-1.14483"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="ccccccc" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="169.31"
+       y="184.9622"
+       id="text4484-18"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="169.31"
+         y="184.9622"
+         id="tspan4877">- features introduce bugs</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="169.31"
+         y="197.4622"
+         id="tspan5002">- short response times</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="169.31"
+         y="209.9622"
+         id="tspan5006">  require interruptions</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="169.31"
+         y="222.4622"
+         id="tspan4520-5" /><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF, Normal';text-align:start;writing-mode:lr-tb;text-anchor:start"
+         x="169.31"
+         y="234.9622"
+         id="tspan4522-7" /><tspan
+         sodipodi:role="line"
+         id="tspan4492-4"
+         x="169.31"
+         y="247.4622" /></text>
+    <rect
+       style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.58823529"
+       id="slide_0"
+       width="240"
+       height="135"
+       x="-10"
+       y="-12.637795"
+       inkscape:label="#rect4524" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:16px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF';letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="2.4919987"
+       y="56.389671"
+       id="text4494"
+       sodipodi:linespacing="125%"
+       inkscape:label="#text4494"><tspan
+         sodipodi:role="line"
+         id="tspan4496"
+         x="2.4919987"
+         y="56.389671">Why do we need feature freeze?</tspan></text>
+    <a
+       xlink:href="https://github.com/winniehell/"
+       id="a4996"
+       style="fill:#0000a0;fill-opacity:1">
+      <text
+         xml:space="preserve"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10px;line-height:125%;font-family:'Gillius ADF';-inkscape-font-specification:'Gillius ADF';letter-spacing:0px;word-spacing:0px;fill:#0000a0;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         x="85.810623"
+         y="78.985519"
+         id="text4908"
+         sodipodi:linespacing="125%"><tspan
+           sodipodi:role="line"
+           id="tspan4910"
+           x="85.810623"
+           y="78.985519">@winniehell</tspan></text>
+    </a>
+  </g>
+</svg>
