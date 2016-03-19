@@ -1,8 +1,12 @@
 'use strict';
 
 class SvgSlides {
-  constructor () {
+  constructor (options) {
     var self = this;
+
+    if (!options) {
+      options = {};
+    }
 
     console.log('Powered by d3 v' + d3.version);
     var svg = d3.select('svg');
@@ -10,8 +14,7 @@ class SvgSlides {
     svg.attr('width', '100%');
     svg.attr('height', '100%');
 
-    var slidePrefix = 'slide_';
-    var slides = svg.selectAll(`[id^=${slidePrefix}]`);
+    var slides = svg.selectAll(options.slideSelector || SvgSlides.defaultOptions.slideSelector);
 
     this._sortedSlideIds = slides[0].map(function (slide) {
       return slide.id;
@@ -179,7 +182,13 @@ class SvgSlides {
     return keyBindings;
   }
 
-  set keyBindings(newKeyBindings) {
+  static get defaultOptions () {
+    return {
+      slideSelector: '[id^=slide_]'
+    };
+  }
+
+  set keyBindings (newKeyBindings) {
     this._keyBindings = newKeyBindings;
   }
 
