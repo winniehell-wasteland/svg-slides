@@ -4,9 +4,18 @@ class SvgSlides {
   constructor (options) {
     var self = this;
 
-    if (!options) {
-      options = {};
-    }
+    this._options = {};
+    Object.keys(SvgSlides.defaultOptions).forEach(function (key) {
+      var value;
+      
+      if (options && options[key]) {
+        value = options[key];
+      } else {
+        value = SvgSlides.defaultOptions[key];
+      }
+
+      self._options[key] = value;
+    });
 
     console.log('Powered by d3 v' + d3.version);
     var svg = d3.select('svg');
@@ -14,15 +23,11 @@ class SvgSlides {
     svg.attr('width', '100%');
     svg.attr('height', '100%');
 
-    this._slides = svg.selectAll(options.slideSelector || SvgSlides.defaultOptions.slideSelector)[0];
-
-    if (!options.sortSlidesBy) {
-      options.sortSlidesBy = SvgSlides.defaultOptions.sortSlidesBy;
-    }
+    this._slides = svg.selectAll(this.options.slideSelector)[0];
 
     this._slides = this._slides.sort(function compareSlides (a, b) {
-      var sortKeyA = a[options.sortSlidesBy].toString();
-      var sortKeyB = b[options.sortSlidesBy].toString();
+      var sortKeyA = a[self.options.sortSlidesBy].toString();
+      var sortKeyB = b[self.options.sortSlidesBy].toString();
       if (sortKeyA < sortKeyB) {
         return -1;
       } else if (sortKeyA > sortKeyB) {
@@ -231,6 +236,10 @@ class SvgSlides {
       var svgSlides = new SvgSlides();
       svgSlides.keyBindings = svgSlides.defaultKeyBindings;
     });
+  }
+
+  get options () {
+    return this._options;
   }
 
   get slides () {
