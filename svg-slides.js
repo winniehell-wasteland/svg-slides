@@ -94,9 +94,16 @@ window.addEventListener('load', function () {
         break;
       case 'ArrowRight':
       case 'Right':
+      case 'Space':
         if (currentSlideIndex < sortedSlideIds.length - 1) {
           setCurrentSlideId(sortedSlideIds[currentSlideIndex + 1]);
         }
+        break;
+      case 'End':
+        setCurrentSlideId(sortedSlideIds[sortedSlideIds.length - 1]);
+        break;
+      case 'Home':
+        setCurrentSlideId(sortedSlideIds[0]);
         break;
       case 'Escape':
       case 'U+001B':
@@ -158,6 +165,7 @@ window.addEventListener('load', function () {
       height: boundingBox.height + 2 * margin.y
     };
 
+    console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
     svg.transition()
       .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
   }
