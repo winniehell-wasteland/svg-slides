@@ -23,6 +23,9 @@
   <script
      xlink:href="svg-slides.js"
      id="script3369" />
+  <script>
+    SvgSlides.load();
+  </script>
   <defs
      id="defs4">
     <linearGradient
