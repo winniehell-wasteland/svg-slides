@@ -80,23 +80,18 @@ class SvgSlides {
 
     function onKeyDown (event) {
       var key = event.code || event.keyIdentifier;
-      switch (key) {
-        case 'ArrowLeft':
-        case 'Left':
-          return self.transitionToPreviousSlide();
-        case 'ArrowRight':
-        case 'Right':
-        case 'Space':
-          return self.transitionToNextSlide();
-        case 'End':
-          return self.transitionToLastSlide();
-        case 'Home':
-          return self.transitionToFirstSlide();
-        case 'Escape':
-        case 'U+001B':
-          return self.transitionToOverview();
-        default:
-          console.log(`No keybinding for ${key}`);
+
+      var keyBinding;
+      if (self._keyBindings instanceof Map) {
+        keyBinding = self._keyBindings.get(key);
+      } else {
+        keyBinding = self._keyBindings[key];
+      }
+
+      if (keyBinding) {
+        keyBinding();
+      } else {
+        console.log(`No keybinding for ${key}`);
       }
     }
 
@@ -170,9 +165,28 @@ class SvgSlides {
     return this._sortedSlideIds.indexOf(this.currentSlideId);
   }
 
+  get defaultKeyBindings () {
+    var keyBindings = new Map();
+    keyBindings.set('ArrowLeft', this.transitionToPreviousSlide.bind(this));
+    keyBindings.set('Left', this.transitionToPreviousSlide.bind(this));
+    keyBindings.set('ArrowRight', this.transitionToNextSlide.bind(this));
+    keyBindings.set('Right', this.transitionToNextSlide.bind(this));
+    keyBindings.set('Space', this.transitionToNextSlide.bind(this));
+    keyBindings.set('End', this.transitionToLastSlide.bind(this));
+    keyBindings.set('Home', this.transitionToFirstSlide.bind(this));
+    keyBindings.set('Escape', this.transitionToOverview.bind(this));
+    keyBindings.set('U+001B', this.transitionToOverview.bind(this));
+    return keyBindings;
+  }
+
+  set keyBindings(newKeyBindings) {
+    this._keyBindings = newKeyBindings;
+  }
+
   static load () {
     window.addEventListener('load', function () {
-      new SvgSlides();
+      var svgSlides = new SvgSlides();
+      svgSlides.keyBindings = svgSlides.defaultKeyBindings;
     });
   }
 
