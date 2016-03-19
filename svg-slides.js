@@ -7,7 +7,7 @@ class SvgSlides {
     this._options = {};
     Object.keys(SvgSlides.defaultOptions).forEach(function (key) {
       var value;
-      
+
       if (options && options[key]) {
         value = options[key];
       } else {
@@ -73,7 +73,7 @@ class SvgSlides {
 
     function onHashChange () {
       var slideId = self.currentSlideId;
-      if (!slideId) {
+      if (!slideId || (self.currentSlideIndex < 0)) {
         if (self.slides.length > 0) {
           self.currentSlideId = self.slides[0].id;
         } else {
@@ -196,7 +196,7 @@ class SvgSlides {
 
     if (currentSlides.length === 0) {
       console.error(`No slide found with id "${this.currentSlideId}"!`);
-      return;
+      return -1;
     }
 
     if (currentSlides.length > 1) {
