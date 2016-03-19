@@ -14,9 +14,9 @@ class SvgSlides {
     svg.attr('width', '100%');
     svg.attr('height', '100%');
 
-    var slides = svg.selectAll(options.slideSelector || SvgSlides.defaultOptions.slideSelector);
+    this._slides = svg.selectAll(options.slideSelector || SvgSlides.defaultOptions.slideSelector)[0];
 
-    this._sortedSlideIds = slides[0].map(function (slide) {
+    this._sortedSlideIds = this.slides.map(function (slide) {
       return slide.id;
     }).sort();
 
@@ -32,7 +32,7 @@ class SvgSlides {
       }
     });
 
-    slides[0].forEach(function (slideNode) {
+    this.slides.forEach(function (slideNode) {
       slideNode.addEventListener('click', onClickSlide);
 
       function onClickSlide (event) {
@@ -197,6 +197,10 @@ class SvgSlides {
       var svgSlides = new SvgSlides();
       svgSlides.keyBindings = svgSlides.defaultKeyBindings;
     });
+  }
+
+  get slides () {
+    return this._slides;
   }
 
   transitionToFirstSlide () {
