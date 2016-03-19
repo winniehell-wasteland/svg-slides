@@ -16,27 +16,45 @@ class SvgSlides {
 
     this._slides = svg.selectAll(options.slideSelector || SvgSlides.defaultOptions.slideSelector)[0];
 
-    this._sortedSlideIds = this.slides.map(function (slide) {
-      return slide.id;
-    }).sort();
+    if (!options.sortSlidesBy) {
+      options.sortSlidesBy = SvgSlides.defaultOptions.sortSlidesBy;
+    }
 
-    if (this._sortedSlideIds.length > 0) {
-      console.log(`Found the following slides: ${this._sortedSlideIds}`);
+    this._slides = this._slides.sort(function compareSlides (a, b) {
+      var sortKeyA = a[options.sortSlidesBy].toString();
+      var sortKeyB = b[options.sortSlidesBy].toString();
+      if (sortKeyA < sortKeyB) {
+        return -1;
+      } else if (sortKeyA > sortKeyB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    if (this.slides.length > 0) {
+      var slideIds = this.slides.map(function (slide) {
+        return slide.id;
+      });
+      console.log(`Found the following slides: ${slideIds}`);
+
+      slideIds.forEach(function (slideId) {
+        var matchingSlides = self.slides.filter(function (slide) {
+          return (slide.id === slideId);
+        });
+        if (matchingSlides.length > 1) {
+          console.error(`Found duplicate slide id: ${slide.id}`);
+        }
+      });
     } else {
       console.error('Found no slides!');
     }
 
-    this._sortedSlideIds.forEach(function (slideId, index) {
-      if (self._sortedSlideIds.indexOf(slideId) != index) {
-        console.error(`Found duplicate slide: ${slideId}`);
-      }
-    });
-
-    this.slides.forEach(function (slideNode) {
-      slideNode.addEventListener('click', onClickSlide);
+    this.slides.forEach(function (slide) {
+      slide.addEventListener('click', onClickSlide);
 
       function onClickSlide (event) {
-        self.currentSlideId = slideNode.id;
+        self.currentSlideId = slide.id;
       }
     });
 
@@ -51,8 +69,8 @@ class SvgSlides {
     function onHashChange () {
       var slideId = self.currentSlideId;
       if (!slideId) {
-        if (self._sortedSlideIds.length > 0) {
-          self.currentSlideId = self._sortedSlideIds[0];
+        if (self.slides.length > 0) {
+          self.currentSlideId = self.slides[0].id;
         } else {
           self.currentSlideId = 'overview';
         }
@@ -165,7 +183,22 @@ class SvgSlides {
   }
 
   get currentSlideIndex () {
-    return this._sortedSlideIds.indexOf(this.currentSlideId);
+    var self = this;
+
+    var currentSlides = this.slides.filter(function (slide) {
+      return (slide.id === self.currentSlideId);
+    });
+
+    if (currentSlides.length === 0) {
+      console.error(`No slide found with id "${this.currentSlideId}"!`);
+      return;
+    }
+
+    if (currentSlides.length > 1) {
+      console.error(`More than one slide found with id "${this.currentSlideId}", using the first one!`);
+    }
+
+    return this.slides.indexOf(currentSlides[0]);
   }
 
   get defaultKeyBindings () {
@@ -184,7 +217,8 @@ class SvgSlides {
 
   static get defaultOptions () {
     return {
-      slideSelector: '[id^=slide_]'
+      slideSelector: '[id^=slide_]',
+      sortSlidesBy: 'id'
     };
   }
 
@@ -204,16 +238,16 @@ class SvgSlides {
   }
 
   transitionToFirstSlide () {
-    this.currentSlideId = this._sortedSlideIds[0];
+    this.currentSlideId = this.slides[0].id;
   }
 
   transitionToLastSlide () {
-    this.currentSlideId = this._sortedSlideIds[this._sortedSlideIds.length - 1];
+    this.currentSlideId = this.slides[this.slides.length - 1].id;
   }
 
   transitionToNextSlide () {
-    if (this.currentSlideIndex < this._sortedSlideIds.length - 1) {
-      this.currentSlideId = this._sortedSlideIds[this.currentSlideIndex + 1];
+    if (this.currentSlideIndex < this.slides.length - 1) {
+      this.currentSlideId = this.slides[this.currentSlideIndex + 1].id;
     }
   }
 
@@ -223,7 +257,7 @@ class SvgSlides {
 
   transitionToPreviousSlide () {
     if (this.currentSlideIndex > 0) {
-      this.currentSlideId = this._sortedSlideIds[this.currentSlideIndex - 1];
+      this.currentSlideId = this.slides[this.currentSlideIndex - 1].id;
       return this.currentSlideId;
     }
   }
