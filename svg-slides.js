@@ -13,18 +13,18 @@ class SvgSlides {
     var slidePrefix = 'slide_';
     var slides = svg.selectAll(`[id^=${slidePrefix}]`);
 
-    var sortedSlideIds = slides[0].map(function (slide) {
+    this._sortedSlideIds = slides[0].map(function (slide) {
       return slide.id;
     }).sort();
 
-    if (sortedSlideIds.length > 0) {
-      console.log(`Found the following slides: ${sortedSlideIds}`);
+    if (this._sortedSlideIds.length > 0) {
+      console.log(`Found the following slides: ${this._sortedSlideIds}`);
     } else {
       console.error('Found no slides!');
     }
 
-    sortedSlideIds.forEach(function (slideId, index) {
-      if (sortedSlideIds.indexOf(slideId) != index) {
+    this._sortedSlideIds.forEach(function (slideId, index) {
+      if (self._sortedSlideIds.indexOf(slideId) != index) {
         console.error(`Found duplicate slide: ${slideId}`);
       }
     });
@@ -48,8 +48,8 @@ class SvgSlides {
     function onHashChange () {
       var slideId = self.currentSlideId;
       if (!slideId) {
-        if (sortedSlideIds.length > 0) {
-          self.currentSlideId = sortedSlideIds[0];
+        if (self._sortedSlideIds.length > 0) {
+          self.currentSlideId = self._sortedSlideIds[0];
         } else {
           self.currentSlideId = 'overview';
         }
@@ -79,27 +79,26 @@ class SvgSlides {
     }
 
     function onKeyDown (event) {
-      var currentSlideIndex = sortedSlideIds.indexOf(self.currentSlideId);
       var key = event.code || event.keyIdentifier;
       switch (key) {
         case 'ArrowLeft':
         case 'Left':
-          if (currentSlideIndex > 0) {
-            self.currentSlideId = sortedSlideIds[currentSlideIndex - 1];
+          if (self.currentSlideIndex > 0) {
+            self.currentSlideId = self._sortedSlideIds[self.currentSlideIndex - 1];
           }
           break;
         case 'ArrowRight':
         case 'Right':
         case 'Space':
-          if (currentSlideIndex < sortedSlideIds.length - 1) {
-            self.currentSlideId = sortedSlideIds[currentSlideIndex + 1];
+          if (self.currentSlideIndex < self._sortedSlideIds.length - 1) {
+            self.currentSlideId = self._sortedSlideIds[self.currentSlideIndex + 1];
           }
           break;
         case 'End':
-          self.currentSlideId = sortedSlideIds[sortedSlideIds.length - 1];
+          self.currentSlideId = self._sortedSlideIds[self._sortedSlideIds.length - 1];
           break;
         case 'Home':
-          self.currentSlideId = sortedSlideIds[0];
+          self.currentSlideId = self._sortedSlideIds[0];
           break;
         case 'Escape':
         case 'U+001B':
@@ -174,6 +173,10 @@ class SvgSlides {
 
   set currentSlideId (slideId) {
     window.location.hash = `#${slideId}`;
+  }
+
+  get currentSlideIndex () {
+    return this._sortedSlideIds.indexOf(this.currentSlideId);
   }
 
   static load () {
