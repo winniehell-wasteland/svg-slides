@@ -83,27 +83,18 @@ class SvgSlides {
       switch (key) {
         case 'ArrowLeft':
         case 'Left':
-          if (self.currentSlideIndex > 0) {
-            self.currentSlideId = self._sortedSlideIds[self.currentSlideIndex - 1];
-          }
-          break;
+          return self.transitionToPreviousSlide();
         case 'ArrowRight':
         case 'Right':
         case 'Space':
-          if (self.currentSlideIndex < self._sortedSlideIds.length - 1) {
-            self.currentSlideId = self._sortedSlideIds[self.currentSlideIndex + 1];
-          }
-          break;
+          return self.transitionToNextSlide();
         case 'End':
-          self.currentSlideId = self._sortedSlideIds[self._sortedSlideIds.length - 1];
-          break;
+          return self.transitionToLastSlide();
         case 'Home':
-          self.currentSlideId = self._sortedSlideIds[0];
-          break;
+          return self.transitionToFirstSlide();
         case 'Escape':
         case 'U+001B':
-          self.currentSlideId = 'overview';
-          break;
+          return self.transitionToOverview();
         default:
           console.log(`No keybinding for ${key}`);
       }
@@ -183,5 +174,30 @@ class SvgSlides {
     window.addEventListener('load', function () {
       new SvgSlides();
     });
+  }
+
+  transitionToFirstSlide () {
+    this.currentSlideId = this._sortedSlideIds[0];
+  }
+
+  transitionToLastSlide () {
+    this.currentSlideId = this._sortedSlideIds[this._sortedSlideIds.length - 1];
+  }
+
+  transitionToNextSlide () {
+    if (this.currentSlideIndex < this._sortedSlideIds.length - 1) {
+      this.currentSlideId = this._sortedSlideIds[this.currentSlideIndex + 1];
+    }
+  }
+
+  transitionToOverview () {
+    this.currentSlideId = 'overview';
+  }
+
+  transitionToPreviousSlide () {
+    if (this.currentSlideIndex > 0) {
+      this.currentSlideId = this._sortedSlideIds[this.currentSlideIndex - 1];
+      return this.currentSlideId;
+    }
   }
 }
