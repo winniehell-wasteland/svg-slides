@@ -2,6 +2,8 @@
 
 class SvgSlides {
   constructor () {
+    var self = this;
+
     console.log('Powered by d3 v' + d3.version);
     var svg = d3.select('svg');
     svg.attr('preserveAspectRatio', 'xMidYMid meet');
@@ -31,7 +33,7 @@ class SvgSlides {
       slideNode.addEventListener('click', onClickSlide);
 
       function onClickSlide (event) {
-        setCurrentSlideId(slideNode.id);
+        self.currentSlideId = slideNode.id;
       }
     });
 
@@ -43,22 +45,13 @@ class SvgSlides {
     // start presentation
     onHashChange();
 
-    function getCurrentSlideId () {
-      var hash = window.location.hash || '';
-      if (hash === '') {
-        return null;
-      } else {
-        return hash.replace(/^#/, '');
-      }
-    }
-
     function onHashChange () {
-      var slideId = getCurrentSlideId();
+      var slideId = self.currentSlideId;
       if (!slideId) {
         if (sortedSlideIds.length > 0) {
-          setCurrentSlideId(sortedSlideIds[0]);
+          self.currentSlideId = sortedSlideIds[0];
         } else {
-          setCurrentSlideId('overview');
+          self.currentSlideId = 'overview';
         }
         return;
       }
@@ -86,31 +79,31 @@ class SvgSlides {
     }
 
     function onKeyDown (event) {
-      var currentSlideIndex = sortedSlideIds.indexOf(getCurrentSlideId());
+      var currentSlideIndex = sortedSlideIds.indexOf(self.currentSlideId);
       var key = event.code || event.keyIdentifier;
       switch (key) {
         case 'ArrowLeft':
         case 'Left':
           if (currentSlideIndex > 0) {
-            setCurrentSlideId(sortedSlideIds[currentSlideIndex - 1]);
+            self.currentSlideId = sortedSlideIds[currentSlideIndex - 1];
           }
           break;
         case 'ArrowRight':
         case 'Right':
         case 'Space':
           if (currentSlideIndex < sortedSlideIds.length - 1) {
-            setCurrentSlideId(sortedSlideIds[currentSlideIndex + 1]);
+            self.currentSlideId = sortedSlideIds[currentSlideIndex + 1];
           }
           break;
         case 'End':
-          setCurrentSlideId(sortedSlideIds[sortedSlideIds.length - 1]);
+          self.currentSlideId = sortedSlideIds[sortedSlideIds.length - 1];
           break;
         case 'Home':
-          setCurrentSlideId(sortedSlideIds[0]);
+          self.currentSlideId = sortedSlideIds[0];
           break;
         case 'Escape':
         case 'U+001B':
-          setCurrentSlideId('overview');
+          self.currentSlideId = 'overview';
           break;
         default:
           console.log(`No keybinding for ${key}`);
@@ -143,10 +136,6 @@ class SvgSlides {
       setViewBox(viewBox);
     }
 
-    function setCurrentSlideId (slideId) {
-      window.location.hash = `#${slideId}`;
-    }
-
     function setViewBox (viewBox) {
       window.location.hash = `#viewBox=${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}`;
     }
@@ -172,6 +161,19 @@ class SvgSlides {
       svg.transition()
         .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
     }
+  }
+
+  get currentSlideId () {
+    var hash = window.location.hash || '';
+    if (hash === '') {
+      return null;
+    } else {
+      return hash.replace(/^#/, '');
+    }
+  }
+
+  set currentSlideId (slideId) {
+    window.location.hash = `#${slideId}`;
   }
 
   static load () {
