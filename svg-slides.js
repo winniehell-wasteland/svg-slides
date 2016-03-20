@@ -48,22 +48,20 @@ class SvgSlides {
     this.transitionTo(newSlide);
   }
 
-  get defaultKeyBindings () {
-    var keyBindings = new Map();
-    keyBindings.set('ArrowLeft', this.transitionToPreviousSlide.bind(this));
-    keyBindings.set('Left', this.transitionToPreviousSlide.bind(this));
-    keyBindings.set('ArrowRight', this.transitionToNextSlide.bind(this));
-    keyBindings.set('Right', this.transitionToNextSlide.bind(this));
-    keyBindings.set('Space', this.transitionToNextSlide.bind(this));
-    keyBindings.set('End', this.transitionToLastSlide.bind(this));
-    keyBindings.set('Home', this.transitionToFirstSlide.bind(this));
-    keyBindings.set('Escape', this.transitionToOverview.bind(this));
-    keyBindings.set('U+001B', this.transitionToOverview.bind(this));
-    return keyBindings;
-  }
-
   static get defaultOptions () {
+    var keyBindings = new Map();
+    keyBindings.set('ArrowLeft', 'transitionToPreviousSlide');
+    keyBindings.set('Left', 'transitionToPreviousSlide');
+    keyBindings.set('ArrowRight', 'transitionToNextSlide');
+    keyBindings.set('Right', 'transitionToNextSlide');
+    keyBindings.set('Space', 'transitionToNextSlide');
+    keyBindings.set('End', 'transitionToLastSlide');
+    keyBindings.set('Home', 'transitionToFirstSlide');
+    keyBindings.set('Escape', 'transitionToOverview');
+    keyBindings.set('U+001B', 'transitionToOverview');
+
     return {
+      keyBindings: keyBindings,
       rootNodeSelector: 'svg',
       slideSelector: '[id^=slide_]',
       sortSlidesBy: 'id'
@@ -83,16 +81,6 @@ class SvgSlides {
       case 'wheel':
         return this.onMouseWheel(event);
     }
-  }
-
-  set keyBindings (newKeyBindings) {
-    this._keyBindings = newKeyBindings;
-  }
-
-  static load () {
-    var svgSlides = new SvgSlides();
-    svgSlides.keyBindings = svgSlides.defaultKeyBindings;
-    window.addEventListener('load', svgSlides);
   }
 
   onClick (event) {
@@ -125,12 +113,17 @@ class SvgSlides {
 
   onKeyDown (event) {
     var key = event.code || event.keyIdentifier;
-
+    var keyBindings = this.options.keyBindings;
+    
     var keyBinding;
-    if (this._keyBindings instanceof Map) {
-      keyBinding = this._keyBindings.get(key);
+    if (keyBindings instanceof Map) {
+      keyBinding = keyBindings.get(key);
     } else {
-      keyBinding = this._keyBindings[key];
+      keyBinding = keyBindings[key];
+    }
+    
+    if (typeof(keyBinding) === 'string' || keyBinding instanceof String) {
+      keyBinding = this[keyBinding].bind(this);
     }
 
     if (keyBinding) {

@@ -24,7 +24,7 @@
      xlink:href="svg-slides.js"
      id="script3369" />
   <script>
-    SvgSlides.load();
+    window.addEventListener('load', new SvgSlides());
   </script>
   <defs
      id="defs4">
