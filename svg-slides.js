@@ -107,7 +107,10 @@ class SvgSlides {
       console.error(`More than one slide found with id "${slideId}", using the first one!`);
     }
 
-    this.currentSlideIndex = this.slides.indexOf(matchingSlides[0]);
+    var newSlideIndex = this.slides.indexOf(matchingSlides[0]);
+    if (newSlideIndex != this.currentSlideIndex) {
+      this.currentSlideIndex = newSlideIndex;
+    }
   }
 
   onKeyDown (event) {
