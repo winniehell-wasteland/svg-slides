@@ -69,16 +69,12 @@ class SvgSlides {
     svg.on('wheel', onMouseWheel);
 
     // start presentation
-    onHashChange();
+    self.transitionToFirstSlide();
 
     function onHashChange () {
       var slideId = self.currentSlideId;
       if (!slideId || (self.currentSlideIndex < 0)) {
-        if (self.slides.length > 0) {
-          self.currentSlideId = self.slides[0].id;
-        } else {
-          self.currentSlideId = 'overview';
-        }
+        self.transitionToFirstSlide();
         return;
       }
 
@@ -247,15 +243,25 @@ class SvgSlides {
   }
 
   transitionToFirstSlide () {
-    this.currentSlideId = this.slides[0].id;
+    if (this.slides.length === 0) {
+      this.transitionToOverview();
+    } else {
+      this.currentSlideId = this.slides[0].id;
+    }
   }
 
   transitionToLastSlide () {
-    this.currentSlideId = this.slides[this.slides.length - 1].id;
+    if (this.slides.length === 0) {
+      this.transitionToOverview();
+    } else {
+      this.currentSlideId = this.slides[this.slides.length - 1].id;
+    }
   }
 
   transitionToNextSlide () {
-    if (this.currentSlideIndex < this.slides.length - 1) {
+    if (this.slides.length === 0) {
+      this.transitionToOverview();
+    } else if (this.currentSlideIndex < this.slides.length - 1) {
       this.currentSlideId = this.slides[this.currentSlideIndex + 1].id;
     }
   }
@@ -265,9 +271,10 @@ class SvgSlides {
   }
 
   transitionToPreviousSlide () {
-    if (this.currentSlideIndex > 0) {
+    if (this.slides.length === 0) {
+      this.transitionToOverview();
+    } else if (this.currentSlideIndex > 0) {
       this.currentSlideId = this.slides[this.currentSlideIndex - 1].id;
-      return this.currentSlideId;
     }
   }
 }
