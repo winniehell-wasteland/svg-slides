@@ -18,7 +18,7 @@ class SvgSlides {
     });
 
     console.log('Powered by d3 v' + d3.version);
-    var svg = d3.select('svg');
+    var svg = d3.select(this.options.rootNodeSelector);
     svg.attr('preserveAspectRatio', 'xMidYMid meet');
     svg.attr('width', '100%');
     svg.attr('height', '100%');
@@ -218,6 +218,7 @@ class SvgSlides {
 
   static get defaultOptions () {
     return {
+      rootNodeSelector: 'svg',
       slideSelector: '[id^=slide_]',
       sortSlidesBy: 'id'
     };
