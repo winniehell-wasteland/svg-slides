@@ -18,14 +18,21 @@ class SvgSlides {
     });
   }
 
+  get currentSlide () {
+    if ((0 <= this.currentSlideIndex) && (this.currentSlideIndex < this.slides.length)) {
+      return this.slides[this.currentSlideIndex];
+    } else {
+      return this.rootNodeSelection.node();
+    }
+  }
+
   get currentSlideIndex () {
     return this._currentSlideIndex;
   }
 
   set currentSlideIndex (newSlideIndex) {
     if (this.slides.length === 0) {
-      this.transitionToOverview();
-      return;
+      newSlideIndex = null;
     }
 
     if (newSlideIndex < 0) {
@@ -36,16 +43,8 @@ class SvgSlides {
       newSlideIndex = this.slides.length - 1;
     }
 
-    if (newSlideIndex === this.currentSlideIndex) {
-      return;
-    }
-
     this._currentSlideIndex = newSlideIndex;
-
-    var newSlide = this.slides[newSlideIndex];
-    console.log(`Transitioning to slide ${newSlide.id}...`);
-    window.location.hash = `#${newSlide.id}`;
-    this.transitionTo(newSlide);
+    this.transitionTo(this.currentSlide);
   }
 
   static get defaultOptions () {
@@ -235,6 +234,16 @@ class SvgSlides {
       return;
     }
 
+    if (this.slides.indexOf(slide) > -1) {
+      console.log(`Transitioning to slide ${slide.id}...`);
+      window.location.hash = `#${slide.id}`;
+    } else if (slide === this.rootNodeSelection.node()) {
+      console.log(`Transitioning to overview...`);
+    } else {
+      console.error('Passed argument is neither slide nor overview!');
+      return;
+    }
+
     var boundingBox = slide.getBBox();
     var margin = {
       x: boundingBox.width / 100,
@@ -264,7 +273,6 @@ class SvgSlides {
   }
 
   transitionToOverview () {
-    console.log(`Transitioning to overview..`);
     this.transitionTo(this.rootNodeSelection.node());
   }
 
