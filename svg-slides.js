@@ -74,6 +74,7 @@ class SvgSlides {
     function onHashChange () {
       var viewBoxPattern = /viewBox=(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*)/;
 
+      var slideId = self.currentSlideId;
       if (viewBoxPattern.test(slideId)) {
         var match = viewBoxPattern.exec(slideId);
         var viewBox = {
@@ -85,7 +86,6 @@ class SvgSlides {
         console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
         self.rootNode.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
       } else {
-        var slideId = self.currentSlideId;
         if (!slideId || (self.currentSlideIndex < 0)) {
           self.transitionToFirstSlide();
           return;
