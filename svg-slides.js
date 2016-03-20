@@ -156,25 +156,25 @@ class SvgSlides {
 
   set currentSlideId (slideId) {
     window.location.hash = `#${slideId}`;
-  }
-
-  get currentSlideIndex () {
-    var self = this;
 
     var currentSlides = this.slides.filter(function (slide) {
-      return (slide.id === self.currentSlideId);
+      return (slide.id === slideId);
     });
 
     if (currentSlides.length === 0) {
-      console.error(`No slide found with id "${this.currentSlideId}"!`);
+      console.error(`No slide found with id "${slideId}"!`);
       return -1;
     }
 
     if (currentSlides.length > 1) {
-      console.error(`More than one slide found with id "${this.currentSlideId}", using the first one!`);
+      console.error(`More than one slide found with id "${slideId}", using the first one!`);
     }
 
-    return this.slides.indexOf(currentSlides[0]);
+    this._currentSlideIndex = this.slides.indexOf(currentSlides[0]);
+  }
+
+  get currentSlideIndex () {
+    return this._currentSlideIndex;
   }
 
   get defaultKeyBindings () {
