@@ -82,7 +82,7 @@ class SvgSlides {
 
       if (slideId === 'overview') {
         console.log(`Transitioning to overview..`);
-        transitionTo(self.rootNode.node());
+        self.transitionTo(self.rootNode.node());
       } else if (viewBoxPattern.test(slideId)) {
         var match = viewBoxPattern.exec(slideId);
         var viewBox = {
@@ -96,7 +96,7 @@ class SvgSlides {
       } else {
         console.log(`Transitioning to slide ${slideId}...`);
         var slideNode = d3.select('#' + slideId).node();
-        transitionTo(slideNode);
+        self.transitionTo(slideNode);
       }
     }
 
@@ -145,28 +145,6 @@ class SvgSlides {
 
     function setViewBox (viewBox) {
       window.location.hash = `#viewBox=${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}`;
-    }
-
-    function transitionTo (svgElement) {
-      if (!svgElement) {
-        return;
-      }
-
-      var boundingBox = svgElement.getBBox();
-      var margin = {
-        x: boundingBox.width / 100,
-        y: boundingBox.height / 100
-      };
-      var viewBox = {
-        left: boundingBox.x - margin.x,
-        top: boundingBox.y - margin.y,
-        width: boundingBox.width + 2 * margin.x,
-        height: boundingBox.height + 2 * margin.y
-      };
-
-      console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
-      self.rootNode.transition()
-        .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
     }
   }
 
@@ -245,6 +223,28 @@ class SvgSlides {
 
   get slides () {
     return this._slides;
+  }
+
+  transitionTo (slide) {
+    if (!slide || !(slide instanceof SVGElement)) {
+      return;
+    }
+
+    var boundingBox = slide.getBBox();
+    var margin = {
+      x: boundingBox.width / 100,
+      y: boundingBox.height / 100
+    };
+    var viewBox = {
+      left: boundingBox.x - margin.x,
+      top: boundingBox.y - margin.y,
+      width: boundingBox.width + 2 * margin.x,
+      height: boundingBox.height + 2 * margin.y
+    };
+
+    console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
+    this.rootNode.transition()
+      .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
   }
 
   transitionToFirstSlide () {
