@@ -72,18 +72,9 @@ class SvgSlides {
     self.transitionToFirstSlide();
 
     function onHashChange () {
-      var slideId = self.currentSlideId;
-      if (!slideId || (self.currentSlideIndex < 0)) {
-        self.transitionToFirstSlide();
-        return;
-      }
-
       var viewBoxPattern = /viewBox=(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*)/;
 
-      if (slideId === 'overview') {
-        console.log(`Transitioning to overview..`);
-        self.transitionTo(self.rootNode.node());
-      } else if (viewBoxPattern.test(slideId)) {
+      if (viewBoxPattern.test(slideId)) {
         var match = viewBoxPattern.exec(slideId);
         var viewBox = {
           left: match[1],
@@ -94,6 +85,12 @@ class SvgSlides {
         console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
         self.rootNode.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
       } else {
+        var slideId = self.currentSlideId;
+        if (!slideId || (self.currentSlideIndex < 0)) {
+          self.transitionToFirstSlide();
+          return;
+        }
+
         console.log(`Transitioning to slide ${slideId}...`);
         var slideNode = d3.select('#' + slideId).node();
         self.transitionTo(slideNode);
@@ -272,7 +269,8 @@ class SvgSlides {
   }
 
   transitionToOverview () {
-    this.currentSlideId = 'overview';
+    console.log(`Transitioning to overview..`);
+    this.transitionTo(this.rootNode.node());
   }
 
   transitionToPreviousSlide () {
