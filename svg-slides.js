@@ -72,11 +72,11 @@ class SvgSlides {
     self.transitionToFirstSlide();
 
     function onHashChange () {
-      var viewBoxPattern = /viewBox=(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*)/;
+      var hash = window.location.hash || '';
+      var viewBoxPattern = /#viewBox=(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*),(-?\d+\.?\d*)/;
 
-      var slideId = self.currentSlideId;
-      if (viewBoxPattern.test(slideId)) {
-        var match = viewBoxPattern.exec(slideId);
+      if (viewBoxPattern.test(hash)) {
+        var match = viewBoxPattern.exec(hash);
         var viewBox = {
           left: match[1],
           top: match[2],
@@ -86,14 +86,23 @@ class SvgSlides {
         console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
         self.rootNode.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
       } else {
-        if (!slideId || (self.currentSlideIndex < 0)) {
+        var slideId = hash.replace(/^#/, '');
+
+        var matchingSlides = self.slides.filter(function (slide) {
+          return (slide.id === slideId);
+        });
+
+        if (matchingSlides.length === 0) {
+          console.error(`No slide found with id "${slideId}"!`);
           self.transitionToFirstSlide();
           return;
         }
 
-        console.log(`Transitioning to slide ${slideId}...`);
-        var slideNode = d3.select('#' + slideId).node();
-        self.transitionTo(slideNode);
+        if (matchingSlides.length > 1) {
+          console.error(`More than one slide found with id "${slideId}", using the first one!`);
+        }
+
+        self.currentSlideIndex = self.slides.indexOf(matchingSlides[0]);
       }
     }
 
@@ -145,36 +154,34 @@ class SvgSlides {
     }
   }
 
-  get currentSlideId () {
-    var hash = window.location.hash || '';
-    if (hash === '') {
-      return null;
-    } else {
-      return hash.replace(/^#/, '');
-    }
-  }
-
-  set currentSlideId (slideId) {
-    window.location.hash = `#${slideId}`;
-
-    var currentSlides = this.slides.filter(function (slide) {
-      return (slide.id === slideId);
-    });
-
-    if (currentSlides.length === 0) {
-      console.error(`No slide found with id "${slideId}"!`);
-      return -1;
-    }
-
-    if (currentSlides.length > 1) {
-      console.error(`More than one slide found with id "${slideId}", using the first one!`);
-    }
-
-    this._currentSlideIndex = this.slides.indexOf(currentSlides[0]);
-  }
-
   get currentSlideIndex () {
     return this._currentSlideIndex;
+  }
+
+  set currentSlideIndex (newSlideIndex) {
+    if (this.slides.length === 0) {
+      this.transitionToOverview();
+      return;
+    }
+
+    if (newSlideIndex < 0) {
+      newSlideIndex = 0;
+    }
+
+    if (newSlideIndex > this.slides.length - 1) {
+      newSlideIndex = this.slides.length - 1;
+    }
+
+    if (newSlideIndex === this.currentSlideIndex) {
+      return;
+    }
+
+    this._currentSlideIndex = newSlideIndex;
+
+    var newSlide = this.slides[newSlideIndex];
+    console.log(`Transitioning to slide ${newSlide.id}...`);
+    window.location.hash = `#${newSlide.id}`;
+    this.transitionTo(newSlide);
   }
 
   get defaultKeyBindings () {
@@ -245,27 +252,15 @@ class SvgSlides {
   }
 
   transitionToFirstSlide () {
-    if (this.slides.length === 0) {
-      this.transitionToOverview();
-    } else {
-      this.currentSlideId = this.slides[0].id;
-    }
+    this.currentSlideIndex = 0;
   }
 
   transitionToLastSlide () {
-    if (this.slides.length === 0) {
-      this.transitionToOverview();
-    } else {
-      this.currentSlideId = this.slides[this.slides.length - 1].id;
-    }
+    this.currentSlideIndex = this.slides.length - 1;
   }
 
   transitionToNextSlide () {
-    if (this.slides.length === 0) {
-      this.transitionToOverview();
-    } else if (this.currentSlideIndex < this.slides.length - 1) {
-      this.currentSlideId = this.slides[this.currentSlideIndex + 1].id;
-    }
+    this.currentSlideIndex++;
   }
 
   transitionToOverview () {
@@ -274,10 +269,6 @@ class SvgSlides {
   }
 
   transitionToPreviousSlide () {
-    if (this.slides.length === 0) {
-      this.transitionToOverview();
-    } else if (this.currentSlideIndex > 0) {
-      this.currentSlideId = this.slides[this.currentSlideIndex - 1].id;
-    }
+    this.currentSlideIndex--;
   }
 }
