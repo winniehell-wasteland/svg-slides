@@ -18,12 +18,12 @@ class SvgSlides {
     });
 
     console.log('Powered by d3 v' + d3.version);
-    var svg = d3.select(this.options.rootNodeSelector);
-    svg.attr('preserveAspectRatio', 'xMidYMid meet');
-    svg.attr('width', '100%');
-    svg.attr('height', '100%');
+    this._rootNode = d3.select(this.options.rootNodeSelector);
+    this.rootNode.attr('preserveAspectRatio', 'xMidYMid meet');
+    this.rootNode.attr('width', '100%');
+    this.rootNode.attr('height', '100%');
 
-    this._slides = svg.selectAll(this.options.slideSelector)[0];
+    this._slides = this.rootNode.selectAll(this.options.slideSelector)[0];
 
     this._slides = this._slides.sort(function compareSlides (a, b) {
       var sortKeyA = a[self.options.sortSlidesBy].toString();
@@ -66,7 +66,7 @@ class SvgSlides {
     window.addEventListener('keydown', onKeyDown);
     window.addEventListener('hashchange', onHashChange);
 
-    svg.on('wheel', onMouseWheel);
+    self.rootNode.on('wheel', onMouseWheel);
 
     // start presentation
     self.transitionToFirstSlide();
@@ -82,7 +82,7 @@ class SvgSlides {
 
       if (slideId === 'overview') {
         console.log(`Transitioning to overview..`);
-        transitionTo(svg.node());
+        transitionTo(self.rootNode.node());
       } else if (viewBoxPattern.test(slideId)) {
         var match = viewBoxPattern.exec(slideId);
         var viewBox = {
@@ -92,7 +92,7 @@ class SvgSlides {
           height: match[4]
         };
         console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
-        svg.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
+        self.rootNode.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
       } else {
         console.log(`Transitioning to slide ${slideId}...`);
         var slideNode = d3.select('#' + slideId).node();
@@ -127,7 +127,7 @@ class SvgSlides {
         zoom = 1.25;
       }
 
-      var oldViewBox = svg.attr('viewBox')
+      var oldViewBox = self.rootNode.attr('viewBox')
         .split(' ')
         .map(function (component) {
           return parseInt(component);
@@ -165,7 +165,7 @@ class SvgSlides {
       };
 
       console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
-      svg.transition()
+      self.rootNode.transition()
         .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
     }
   }
@@ -237,6 +237,10 @@ class SvgSlides {
 
   get options () {
     return this._options;
+  }
+
+  get rootNode () {
+    return this._rootNode;
   }
 
   get slides () {
