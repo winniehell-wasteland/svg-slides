@@ -18,6 +18,26 @@ class SvgSlides {
     });
   }
 
+  static get actions () {
+    return {
+      firstSlide: function () {
+        this.currentSlideIndex = 0;
+      },
+      lastSlide: function () {
+        this.currentSlideIndex = this.slides.length - 1;
+      },
+      nextSlide: function () {
+        this.currentSlideIndex++;
+      },
+      overview: function () {
+        this.transitionTo(this.rootNodeSelection.node());
+      },
+      previousSlide () {
+        this.currentSlideIndex--;
+      }
+    };
+  }
+
   get currentSlide () {
     if ((0 <= this.currentSlideIndex) && (this.currentSlideIndex < this.slides.length)) {
       return this.slides[this.currentSlideIndex];
@@ -49,15 +69,15 @@ class SvgSlides {
 
   static get defaultOptions () {
     var keyBindings = new Map();
-    keyBindings.set('ArrowLeft', 'transitionToPreviousSlide');
-    keyBindings.set('Left', 'transitionToPreviousSlide');
-    keyBindings.set('ArrowRight', 'transitionToNextSlide');
-    keyBindings.set('Right', 'transitionToNextSlide');
-    keyBindings.set('Space', 'transitionToNextSlide');
-    keyBindings.set('End', 'transitionToLastSlide');
-    keyBindings.set('Home', 'transitionToFirstSlide');
-    keyBindings.set('Escape', 'transitionToOverview');
-    keyBindings.set('U+001B', 'transitionToOverview');
+    keyBindings.set('ArrowLeft', SvgSlides.actions.previousSlide);
+    keyBindings.set('ArrowRight', SvgSlides.actions.nextSlide);
+    keyBindings.set('Left', SvgSlides.actions.previousSlide);
+    keyBindings.set('End', SvgSlides.actions.lastSlide);
+    keyBindings.set('Escape', SvgSlides.actions.overview);
+    keyBindings.set('Home', SvgSlides.actions.firstSlide);
+    keyBindings.set('Right', SvgSlides.actions.nextSlide);
+    keyBindings.set('Space', SvgSlides.actions.nextSlide);
+    keyBindings.set('U+001B', SvgSlides.actions.overview);
 
     return {
       keyBindings: keyBindings,
@@ -99,7 +119,7 @@ class SvgSlides {
 
     if (matchingSlides.length === 0) {
       console.error(`No slide found with id "${slideId}"!`);
-      this.transitionToFirstSlide();
+      this.currentSlideIndex = 0;
       return;
     }
 
@@ -116,20 +136,16 @@ class SvgSlides {
   onKeyDown (event) {
     var key = event.code || event.keyIdentifier;
     var keyBindings = this.options.keyBindings;
-    
+
     var keyBinding;
     if (keyBindings instanceof Map) {
       keyBinding = keyBindings.get(key);
     } else {
       keyBinding = keyBindings[key];
     }
-    
-    if (typeof(keyBinding) === 'string' || keyBinding instanceof String) {
-      keyBinding = this[keyBinding].bind(this);
-    }
 
     if (keyBinding) {
-      keyBinding();
+      keyBinding.call(this);
     } else {
       console.log(`No keybinding for ${key}`);
     }
@@ -170,7 +186,7 @@ class SvgSlides {
           return (slide.id === slideId);
         });
         if (matchingSlides.length > 1) {
-          console.error(`Found duplicate slide id: ${slide.id}`);
+          console.error(`Found duplicate slide id: ${slideId}`);
         }
       });
     } else {
@@ -183,7 +199,7 @@ class SvgSlides {
     window.addEventListener('wheel', this);
 
     // start presentation
-    this.transitionToFirstSlide();
+    this.currentSlideIndex = 0;
   }
 
   onMouseWheel (event) {
@@ -261,25 +277,5 @@ class SvgSlides {
 
     this.rootNodeSelection.transition()
       .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
-  }
-
-  transitionToFirstSlide () {
-    this.currentSlideIndex = 0;
-  }
-
-  transitionToLastSlide () {
-    this.currentSlideIndex = this.slides.length - 1;
-  }
-
-  transitionToNextSlide () {
-    this.currentSlideIndex++;
-  }
-
-  transitionToOverview () {
-    this.transitionTo(this.rootNodeSelection.node());
-  }
-
-  transitionToPreviousSlide () {
-    this.currentSlideIndex--;
   }
 }
