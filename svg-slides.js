@@ -151,9 +151,7 @@ class SvgSlides {
     }
   }
 
-  onLoad (event) {
-    var self = this;
-
+  onLoad () {
     console.log('Powered by d3 v' + d3.version);
     this._rootNodeSelection = d3.select(this.options.rootNodeSelector);
     this.rootNodeSelection.attr('preserveAspectRatio', 'xMidYMid meet');
@@ -161,19 +159,20 @@ class SvgSlides {
     this.rootNodeSelection.attr('height', '100%');
     this.rootNodeSelection.attr('zoomAndPan', 'disable'); // sadly this is not supported by all browsers, so disable it for all
 
-    this._slides = this.rootNodeSelection.selectAll(this.options.slideSelector)[0];
-
-    this._slides = this._slides.sort(function compareSlides (a, b) {
-      var sortKeyA = a[self.options.sortSlidesBy].toString();
-      var sortKeyB = b[self.options.sortSlidesBy].toString();
-      if (sortKeyA < sortKeyB) {
+    var sortKey = this.options.sortSlidesBy;
+    var slideComparator = function compare (firstSlide, secondSlide) {
+      var firstSortKey = firstSlide[sortKey].toString();
+      var secondSortKey = secondSlide[sortKey].toString();
+      if (firstSortKey < secondSortKey) {
         return -1;
-      } else if (sortKeyA > sortKeyB) {
+      } else if (firstSortKey > secondSortKey) {
         return 1;
       } else {
         return 0;
       }
-    });
+    };
+
+    this._slides = this.rootNodeSelection.selectAll(this.options.slideSelector)[0].sort(slideComparator);
 
     if (this.slides.length > 0) {
       var slideIds = this.slides.map(function (slide) {
@@ -181,11 +180,8 @@ class SvgSlides {
       });
       console.log(`Found the following slides: ${slideIds}`);
 
-      slideIds.forEach(function (slideId) {
-        var matchingSlides = self.slides.filter(function (slide) {
-          return (slide.id === slideId);
-        });
-        if (matchingSlides.length > 1) {
+      slideIds.forEach(function (slideId, currentIndex) {
+        if (slideIds.indexOf(slideId) !== currentIndex) {
           console.error(`Found duplicate slide id: ${slideId}`);
         }
       });
