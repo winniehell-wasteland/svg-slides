@@ -83,7 +83,8 @@ class SvgSlides {
       keyBindings: keyBindings,
       rootNodeSelector: 'svg',
       slideSelector: '[id^=slide_]',
-      sortSlidesBy: 'id'
+      sortSlidesBy: 'id',
+      zoomFactor: 1.25
     };
   }
 
@@ -199,13 +200,12 @@ class SvgSlides {
   }
 
   onMouseWheel (event) {
-    var zoom;
+    var zoomFactor = this.options.zoomFactor;
     if (event.wheelDelta > 0) {
       console.log('Zooming in');
-      zoom = 0.8;
+      zoomFactor = 1 / zoomFactor;
     } else {
       console.log('Zooming out');
-      zoom = 1.25;
     }
 
     var oldViewBox = this.rootNodeSelection.attr('viewBox').split(' ');
@@ -217,10 +217,10 @@ class SvgSlides {
     };
 
     var viewBox = {
-      left: oldViewBox.left + (oldViewBox.width - oldViewBox.width * zoom) / 2,
-      top: oldViewBox.top + (oldViewBox.height - oldViewBox.height * zoom) / 2,
-      width: oldViewBox.width * zoom,
-      height: oldViewBox.height * zoom
+      left: oldViewBox.left + (oldViewBox.width - oldViewBox.width * zoomFactor) / 2,
+      top: oldViewBox.top + (oldViewBox.height - oldViewBox.height * zoomFactor) / 2,
+      width: oldViewBox.width * zoomFactor,
+      height: oldViewBox.height * zoomFactor
     };
 
     console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
