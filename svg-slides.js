@@ -199,13 +199,6 @@ class SvgSlides {
   }
 
   onMouseWheel (event) {
-    var mousePosition = this.rootNodeSelection.node().createSVGPoint();
-    mousePosition.x = event.clientX;
-    mousePosition.y = event.clientY;
-
-    var svgPointTransformation = this.rootNodeSelection.node().getScreenCTM().inverse();
-    mousePosition = mousePosition.matrixTransform(svgPointTransformation);
-
     var zoom;
     if (event.wheelDelta > 0) {
       console.log('Zooming in');
@@ -215,17 +208,19 @@ class SvgSlides {
       zoom = 1.25;
     }
 
-    var oldViewBox = this.rootNodeSelection.attr('viewBox')
-      .split(' ')
-      .map(function (component) {
-        return parseInt(component);
-      });
+    var oldViewBox = this.rootNodeSelection.attr('viewBox').split(' ');
+    oldViewBox = {
+      left: parseInt(oldViewBox[0]),
+      top: parseInt(oldViewBox[1]),
+      width: parseInt(oldViewBox[2]),
+      height: parseInt(oldViewBox[3])
+    };
 
     var viewBox = {
-      left: mousePosition.x - (mousePosition.x - oldViewBox[0]) * zoom,
-      top: mousePosition.y - (mousePosition.y - oldViewBox[1]) * zoom,
-      width: oldViewBox[2] * zoom,
-      height: oldViewBox[3] * zoom
+      left: oldViewBox.left + (oldViewBox.width - oldViewBox.width * zoom) / 2,
+      top: oldViewBox.top + (oldViewBox.height - oldViewBox.height * zoom) / 2,
+      width: oldViewBox.width * zoom,
+      height: oldViewBox.height * zoom
     };
 
     console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
