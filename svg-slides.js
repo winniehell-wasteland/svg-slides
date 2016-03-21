@@ -16,6 +16,10 @@ class SvgSlides {
 
       self._options[key] = value;
     });
+
+    this._error = this.options.logger.error;
+    this._info = this.options.logger.info;
+    this._debug = this.options.logger.debug;
   }
 
   static get actions () {
@@ -81,6 +85,17 @@ class SvgSlides {
 
     return {
       keyBindings: keyBindings,
+      logger: {
+        debug: function () {
+          // ignore
+        },
+        info: function (message) {
+          console.log(message);
+        },
+        error: function (message) {
+          console.error(message);
+        }
+      },
       rootNodeSelector: 'svg',
       slideSelector: '[id^=slide_]',
       sortSlidesBy: 'id',
@@ -119,13 +134,13 @@ class SvgSlides {
     });
 
     if (matchingSlides.length === 0) {
-      console.error(`No slide found with id "${slideId}"!`);
+      this._error(`No slide found with id "${slideId}"!`);
       this.currentSlideIndex = 0;
       return;
     }
 
     if (matchingSlides.length > 1) {
-      console.error(`More than one slide found with id "${slideId}", using the first one!`);
+      this._error(`More than one slide found with id "${slideId}", using the first one!`);
     }
 
     var newSlideIndex = this.slides.indexOf(matchingSlides[0]);
@@ -148,12 +163,12 @@ class SvgSlides {
     if (keyBinding) {
       keyBinding.call(this);
     } else {
-      console.log(`No keybinding for ${key}`);
+      this._debug(`No keybinding for ${key}`);
     }
   }
 
   onLoad () {
-    console.log('Powered by d3 v' + d3.version);
+    this._info('Powered by d3 v' + d3.version);
     this._rootNodeSelection = d3.select(this.options.rootNodeSelector);
     this.rootNodeSelection.attr('preserveAspectRatio', 'xMidYMid meet');
     this.rootNodeSelection.attr('width', '100%');
@@ -179,15 +194,15 @@ class SvgSlides {
       var slideIds = this.slides.map(function (slide) {
         return slide.id;
       });
-      console.log(`Found the following slides: ${slideIds}`);
+      this._info(`Found the following slides: ${slideIds}`);
 
       slideIds.forEach(function (slideId, currentIndex) {
         if (slideIds.indexOf(slideId) !== currentIndex) {
-          console.error(`Found duplicate slide id: ${slideId}`);
+          this._error(`Found duplicate slide id: ${slideId}`);
         }
       });
     } else {
-      console.error('Found no slides!');
+      this._error('Found no slides!');
     }
 
     window.addEventListener('click', this);
@@ -202,10 +217,10 @@ class SvgSlides {
   onMouseWheel (event) {
     var zoomFactor = this.options.zoomFactor;
     if (event.wheelDelta > 0) {
-      console.log('Zooming in');
+      this._debug('Zooming in');
       zoomFactor = 1 / zoomFactor;
     } else {
-      console.log('Zooming out');
+      this._debug('Zooming out');
     }
 
     var oldViewBox = this.rootNodeSelection.attr('viewBox').split(' ');
@@ -223,7 +238,7 @@ class SvgSlides {
       height: oldViewBox.height * zoomFactor
     };
 
-    console.log(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
+    this._debug(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
     this.rootNodeSelection.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
   }
 
@@ -245,12 +260,12 @@ class SvgSlides {
     }
 
     if (this.slides.indexOf(slide) > -1) {
-      console.log(`Transitioning to slide ${slide.id}...`);
+      this._info(`Transitioning to slide ${slide.id}...`);
       window.location.hash = `#${slide.id}`;
     } else if (slide === this.rootNodeSelection.node()) {
-      console.log(`Transitioning to overview...`);
+      this._debug(`Transitioning to overview...`);
     } else {
-      console.error('Passed argument is neither slide nor overview!');
+      this._error('Passed argument is neither slide nor overview!');
       return;
     }
 
