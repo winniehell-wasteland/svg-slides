@@ -176,11 +176,10 @@ class SvgSlides {
 
   onLoad () {
     this._info('Powered by d3 v' + d3.version);
-    var rootNodeSelection = d3.select(this.rootNode);
-    rootNodeSelection.attr('preserveAspectRatio', 'xMidYMid meet');
-    rootNodeSelection.attr('width', '100%');
-    rootNodeSelection.attr('height', '100%');
-    rootNodeSelection.attr('zoomAndPan', 'disable'); // sadly this is not supported by all browsers, so disable it for all
+    this.rootNode.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    this.rootNode.setAttribute('width', '100%');
+    this.rootNode.setAttribute('height', '100%');
+    this.rootNode.setAttribute('zoomAndPan', 'disable'); // sadly this is not supported by all browsers, so disable it for all
 
     this._slides = [];
     let slideNodes = this.rootNode.querySelectorAll(this.options.slideSelector);
@@ -236,8 +235,7 @@ class SvgSlides {
       this._debug('Zooming out');
     }
 
-    var rootNodeSelection = d3.select(this.rootNode);
-    var oldViewBox = rootNodeSelection.attr('viewBox').split(' ');
+    var oldViewBox = this.rootNode.getAttribute('viewBox').split(' ');
     oldViewBox = {
       left: parseInt(oldViewBox[0]),
       top: parseInt(oldViewBox[1]),
@@ -253,7 +251,7 @@ class SvgSlides {
     };
 
     this._debug(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
-    rootNodeSelection.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
+    this.rootNode.setAttribute('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
   }
 
   get options () {
