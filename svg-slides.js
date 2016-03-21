@@ -20,6 +20,14 @@ class SvgSlides {
     this._error = this.options.logger.error;
     this._info = this.options.logger.info;
     this._debug = this.options.logger.debug;
+
+    this._eventHandler = {
+      'click': this.onClick,
+      'hashchange': this.onHashChange,
+      'keydown': this.onKeyDown,
+      'load': this.onLoad,
+      'wheel': this.onMouseWheel
+    };
   }
 
   static get actions () {
@@ -104,17 +112,12 @@ class SvgSlides {
   }
 
   handleEvent (event) {
-    switch (event.type) {
-      case 'click':
-        return this.onClick(event);
-      case 'hashchange':
-        return this.onHashChange(event);
-      case 'keydown':
-        return this.onKeyDown(event);
-      case 'load':
-        return this.onLoad(event);
-      case 'wheel':
-        return this.onMouseWheel(event);
+    var handler = this._eventHandler[event.type];
+
+    if (handler) {
+      handler.call(this, event);
+    } else {
+      this._error(`No handler for event ${event.type}!`);
     }
   }
 
@@ -205,10 +208,12 @@ class SvgSlides {
       this._error('Found no slides!');
     }
 
-    window.addEventListener('click', this);
-    window.addEventListener('hashchange', this);
-    window.addEventListener('keydown', this);
-    window.addEventListener('wheel', this);
+    var self = this;
+    Object.keys(this._eventHandler).forEach(function (eventType) {
+      if (eventType !== 'load') {
+        window.addEventListener(eventType, self);
+      }
+    });
 
     // start presentation
     this.currentSlideIndex = 0;
