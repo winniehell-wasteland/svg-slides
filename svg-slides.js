@@ -1,9 +1,14 @@
 'use strict';
 
 class SvgSlides {
-  constructor (options) {
+  constructor (rootNode, options) {
     var self = this;
 
+    if (rootNode) {
+      this._rootNode = rootNode;
+    } else {
+      this._rootNode = document.querySelector('svg');
+    }
     this._options = {};
     Object.keys(SvgSlides.defaultOptions).forEach(function (key) {
       var value;
@@ -42,7 +47,7 @@ class SvgSlides {
         this.currentSlideIndex++;
       },
       overview: function () {
-        this.transitionTo(this.rootNodeSelection.node());
+        this.transitionTo(this.rootNode);
       },
       previousSlide () {
         this.currentSlideIndex--;
@@ -54,7 +59,7 @@ class SvgSlides {
     if ((0 <= this.currentSlideIndex) && (this.currentSlideIndex < this.slides.length)) {
       return this.slides[this.currentSlideIndex];
     } else {
-      return this.rootNodeSelection.node();
+      return this.rootNode;
     }
   }
 
@@ -104,7 +109,6 @@ class SvgSlides {
           console.error(message);
         }
       },
-      rootNodeSelector: 'svg',
       slideSelector: '[id^=slide_]',
       sortSlidesBy: 'id',
       zoomFactor: 1.25
@@ -172,38 +176,42 @@ class SvgSlides {
 
   onLoad () {
     this._info('Powered by d3 v' + d3.version);
-    this._rootNodeSelection = d3.select(this.options.rootNodeSelector);
-    this.rootNodeSelection.attr('preserveAspectRatio', 'xMidYMid meet');
-    this.rootNodeSelection.attr('width', '100%');
-    this.rootNodeSelection.attr('height', '100%');
-    this.rootNodeSelection.attr('zoomAndPan', 'disable'); // sadly this is not supported by all browsers, so disable it for all
+    var rootNodeSelection = d3.select(this.rootNode);
+    rootNodeSelection.attr('preserveAspectRatio', 'xMidYMid meet');
+    rootNodeSelection.attr('width', '100%');
+    rootNodeSelection.attr('height', '100%');
+    rootNodeSelection.attr('zoomAndPan', 'disable'); // sadly this is not supported by all browsers, so disable it for all
 
-    var sortKey = this.options.sortSlidesBy;
-    var slideComparator = function compare (firstSlide, secondSlide) {
-      var firstSortKey = firstSlide[sortKey].toString();
-      var secondSortKey = secondSlide[sortKey].toString();
-      if (firstSortKey < secondSortKey) {
-        return -1;
-      } else if (firstSortKey > secondSortKey) {
-        return 1;
-      } else {
-        return 0;
+    this._slides = [];
+    let slideNodes = this.rootNode.querySelectorAll(this.options.slideSelector);
+    let slideIds = [];
+    for (let slideIndex = 0; slideIndex < slideNodes.length; ++slideIndex) {
+      let slide = slideNodes[slideIndex];
+      this._slides.push(slide);
+
+      if (slideIds.indexOf(slide.id) > -1) {
+        this._error(`Found duplicate slide id: ${slide.id}`);
       }
-    };
-
-    this._slides = this.rootNodeSelection.selectAll(this.options.slideSelector)[0].sort(slideComparator);
+      slideIds.push(slide.id);
+    }
 
     if (this.slides.length > 0) {
-      var slideIds = this.slides.map(function (slide) {
-        return slide.id;
-      });
       this._info(`Found the following slides: ${slideIds}`);
 
-      slideIds.forEach(function (slideId, currentIndex) {
-        if (slideIds.indexOf(slideId) !== currentIndex) {
-          this._error(`Found duplicate slide id: ${slideId}`);
+      var sortKey = this.options.sortSlidesBy;
+      var slideComparator = function compare (firstSlide, secondSlide) {
+        var firstSortKey = firstSlide[sortKey].toString();
+        var secondSortKey = secondSlide[sortKey].toString();
+        if (firstSortKey < secondSortKey) {
+          return -1;
+        } else if (firstSortKey > secondSortKey) {
+          return 1;
+        } else {
+          return 0;
         }
-      });
+      };
+
+      this._slides.sort(slideComparator);
     } else {
       this._error('Found no slides!');
     }
@@ -228,7 +236,8 @@ class SvgSlides {
       this._debug('Zooming out');
     }
 
-    var oldViewBox = this.rootNodeSelection.attr('viewBox').split(' ');
+    var rootNodeSelection = d3.select(this.rootNode);
+    var oldViewBox = rootNodeSelection.attr('viewBox').split(' ');
     oldViewBox = {
       left: parseInt(oldViewBox[0]),
       top: parseInt(oldViewBox[1]),
@@ -244,15 +253,15 @@ class SvgSlides {
     };
 
     this._debug(`Setting viewBox to ${viewBox.left},${viewBox.top},${viewBox.width},${viewBox.height}...`);
-    this.rootNodeSelection.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
+    rootNodeSelection.attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
   }
 
   get options () {
     return this._options;
   }
 
-  get rootNodeSelection () {
-    return this._rootNodeSelection;
+  get rootNode () {
+    return this._rootNode;
   }
 
   get slides () {
@@ -267,7 +276,7 @@ class SvgSlides {
     if (this.slides.indexOf(slide) > -1) {
       this._info(`Transitioning to slide ${slide.id}...`);
       window.location.hash = `#${slide.id}`;
-    } else if (slide === this.rootNodeSelection.node()) {
+    } else if (slide === this.rootNode) {
       this._debug(`Transitioning to overview...`);
     } else {
       this._error('Passed argument is neither slide nor overview!');
@@ -286,7 +295,8 @@ class SvgSlides {
       height: boundingBox.height + 2 * margin.y
     };
 
-    this.rootNodeSelection.transition()
+    var rootNodeSelection = d3.select(this.rootNode);
+    rootNodeSelection.transition()
       .attr('viewBox', `${viewBox.left} ${viewBox.top} ${viewBox.width} ${viewBox.height}`);
   }
 }
